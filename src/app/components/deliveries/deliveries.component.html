@@ -1,0 +1,50 @@
+<div class="addBtn">
+  <button matButton></button>
+</div>
+<div class="deliveryTable">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
+        No.
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+        Item Name
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+    <!-- Store Column -->
+    <ng-container matColumnDef="store">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by store">
+        Online Store
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.store}} </td>
+    </ng-container>
+    <!-- Delivery Column -->
+    <ng-container matColumnDef="delivery">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by delivery">
+        Delivery ETA
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.delivery}} </td>
+    </ng-container>
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">
+        Price in ILS or USD
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+    </ng-container>
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by action">
+        Action
+      </th>
+      <td mat-cell *matCellDef="let element"><button class="archiveBtn" mat-stroked-button>{{element.action}}</button></td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

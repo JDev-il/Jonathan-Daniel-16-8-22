@@ -1,0 +1,45 @@
+.currencyMainWrapper {
+  display: flex;
+  background-color: #121F3F;
+  border-bottom-left-radius: 1em;
+  justify-content: flex-end;
+  height: 100%;
+  .currencyBlockContainer {
+    display: flex;
+    align-items: center;
+    background-color: #121F3F;
+    border-bottom-left-radius: 1em;
+    color: #FF9F00;
+    span {
+      font-weight: 600;
+      @media screen and (max-width: 992px) {
+        font-size: smaller;
+      }
+    }
+    @media screen and (max-width: 992px) {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .currencyDropdown {
+      margin: 0 30px;
+      @media screen and (max-width: 992px) {
+        margin: 0 10px !important;
+      }
+      select {
+        cursor: pointer;
+        border: 2px solid #FF9F00 !important;
+        padding: 0px 5px 0px 2px;
+        border-radius: 0.6em;
+        background-color: transparent;
+        color: #fff;
+        @media screen and (max-width: 992px) {
+          padding: 0;
+        }
+      }
+
+    }
+  }
+
+}

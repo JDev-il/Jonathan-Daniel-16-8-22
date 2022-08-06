@@ -1,0 +1,32 @@
+nav {
+  background-color: #121F3F;
+  border-right-color: #FF9F00;
+  border-bottom-right-radius: 1em;
+  height: 100%;
+  ::ng-deep {
+    .mat-tab-list {
+      .mat-tab-links {
+        .mat-tab-label-active {
+          color: #FF9F00;
+          opacity: 1;
+        }
+      }
+      a {
+        color: #FF9F00;
+        padding: 0;
+        @media screen and (max-width: 992px) {
+          font-size: smaller;
+          padding: 0 0 0 15px;
+        }
+      }
+      mat-ink-bar{
+        margin: 0 auto;
+        background-color: #FF9F00 !important;
+        @media screen and (max-width: 992px) {
+          padding: 0;
+          margin: 0 5px;
+        }
+      }
+    }
+  }
+}

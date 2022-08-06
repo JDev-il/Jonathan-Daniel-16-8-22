@@ -1,0 +1,23 @@
+
+.headerWrapper {
+  width: 100%;
+  .headerComponentsContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    Navigation {
+      width: 35%;
+      ::ng-deep .mat-tab-header-pagination {
+        @media screen and (max-width: 768px) {
+          display: none;
+        }
+      }
+      @media screen and (max-width: 992px) {
+        width: 60%;
+      }
+    }
+    Currency {
+      width: 30%;
+    }
+  }
+}
