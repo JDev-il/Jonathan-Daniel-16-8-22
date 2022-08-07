@@ -3,32 +3,41 @@ import { ApiService } from 'src/app/core/services/api.service';
 
 import { Item } from 'src/app/core/interfaces/Item.interface';
 
+import { Store } from '@ngrx/store';
+//Store Reducers
+import * as fromRoot from '../../app.reducer';
+//Store Actions
+import * as UI from '../../store/actions/ui.actions';
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class ActionsService {
 
-  constructor(private apiService: ApiService) {
+  constructor(
+    private apiService: ApiService,
+    private store: Store<fromRoot.State>) {
   }
 
   items: Item[] = this.apiService.items;
 
 
-  addNewItemToDeliveryList(newItem: Item){
+  addNewItemToDeliveryList(newItem?: Item){
+    this.store.dispatch(new UI.StartLoading());
     // this.items.find(prevItem=>{
     //   if(prevItem.title === newItem.title && prevItem.price === newItem.price && !prevItem.isDelivered){
     //   }
     // })
-    /*
-    TODO --> check if incoming item exists in items list (using 'find')
-    //* if not, insert the new item
-    */
+    // this.store.dispatch(new UI.StopLoading());
   }
 
   archiveDeliveryItem(itemToArchive: Item){
+    this.store.dispatch(new UI.StartLoading());
     /*
     TODO --> item should be removed from delivery items list >> and add it to the archived list.
     */
+    // this.store.dispatch(new UI.StopLoading());
   }
 
 

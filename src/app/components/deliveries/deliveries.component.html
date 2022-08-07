@@ -1,5 +1,7 @@
-<div class="addBtn">
-  <button matButton></button>
+<div class="addItemBtnDiv">
+  <button mat-stroked-button class="newItemBtn" mat-button (click)="addNewItem()">
+    <mat-icon>add</mat-icon> Add Item
+  </button>
 </div>
 <div class="deliveryTable">
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -47,4 +49,5 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <dialogBox></dialogBox>
 </div>

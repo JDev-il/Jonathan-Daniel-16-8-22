@@ -19,9 +19,9 @@ export class CurrencyComponent implements OnInit {
   ngOnInit(): void {
 
     //! SHOULD BE IMPORTED FROM NGRX STORE!
-    this.currencySubscription = this.apiService.currency$.subscribe(currencyItem=>{
-      this.currencyItem = currencyItem
-    })
+    // this.currencySubscription = this.apiService.currency$.subscribe(currencyItem=>{
+    //   this.currencyItem = currencyItem
+    // })
   }
 
 }

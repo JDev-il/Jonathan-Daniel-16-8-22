@@ -5,6 +5,9 @@ import { ArchivesComponent } from '../../components/archives/archives.component'
 import { DeliveriesComponent } from '../../components/deliveries/deliveries.component';
 import { SummeryComponent } from 'src/app/components/summery/summery.component';
 
+import { LoaderComponent } from '../components/loader/loader.component';
+import { DialogContent } from '../../components/dialog/dialog.component';
+
 
 export const components: any[] = [
   PurchasesByItemsComponent,
@@ -12,5 +15,7 @@ export const components: any[] = [
 
   ArchivesComponent,
   DeliveriesComponent,
-  SummeryComponent
+  SummeryComponent,
+  LoaderComponent,
+  DialogContent
 ]

@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   position: relative;
+  z-index: 111;
   ::ng-deep mat-tab-group{
     position: absolute;
     width: 75%;
@@ -78,5 +79,32 @@
         }
       }
     }
+
+    /* Delivery Tab */
+    .addItemBtnDiv {
+      display: flex;
+      justify-content: flex-end;
+      .newItemBtn {
+        width: 115px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        background-color: #121f3f7a;
+        transition: all .1s ease-in-out;
+        margin: 10px;
+        &:hover {
+          color: #ffe2b4;
+          background-color: #121f3fa0
+        };
+        &:active {
+          color:#ffc25f
+        }
+        mat-icon {
+          margin-right: 5px;
+        }
+      }
+    }
   }
 }
+

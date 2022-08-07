@@ -13,9 +13,9 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { CurrencyComponent } from './shared/components/currency/currency.component';
+// import { reducers } from './app.reducer';
 
 //->Change Later
-import { appReducer } from './app.reducer';
 
 
 
@@ -34,9 +34,7 @@ import { appReducer } from './app.reducer';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-
-    //->Change Later
-    StoreModule.forRoot({appReducer: appReducer})
+    // StoreModule.forRoot(reducers)
   ],
 
   providers: [

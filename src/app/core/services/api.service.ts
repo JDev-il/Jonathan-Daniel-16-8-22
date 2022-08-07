@@ -3,21 +3,35 @@ import { Store } from '@ngrx/store';
 
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Item } from 'src/app/core/interfaces/Item.interface';
-import { BehaviorSubject, map, mergeMap, Observable, Subject } from 'rxjs';
+import {
+  BehaviorSubject,
+  map,
+  mergeMap,
+  Observable,
+  Subject,
+  take,
+} from 'rxjs';
 
-import { ApiEnum } from '../../shared/enums/api.enum';
+//Store Reducers
+import * as fromRoot from '../../app.reducer';
+//Store Actions
+import * as UI from '../../store/actions/ui.actions';
 
-import * as appReducer from '../../app.reducer'
+/*
+-- From Store:
+--> to actions/reducers
+--> then create a combined Reducers const (object + creating exporting createFeatureSelector etc.)
+--> then spreading into services
+--> then subscribing via components onInit() etc.
+*/
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  //TODO: ~~ Eventuallym everything need to move from here to --> NGRX side effects!!! ~~
-
   items!: Item[];
 
-  constructor(private http: HttpClient, private store: Store<{ui: appReducer.State}>) {}
+  constructor(private http: HttpClient, private store: Store<fromRoot.State>) {}
 
   private readonly itemsSource = new BehaviorSubject(<Item[]>[]);
   private readonly currencySource = new Subject();
@@ -25,43 +39,41 @@ export class ApiService {
   readonly items$ = this.itemsSource.asObservable();
   readonly currency$ = this.currencySource.asObservable();
 
-  private get ApiRoutes() {
+  private get _apiEndpoints() {
     return {
-      getProducts: ApiEnum.PRODUCTS_PATH,
-      getCurrencies:
-        ApiEnum.EXCHANGE_PATH + '/convert?to=:to&from=:from&amount=:amount',
+      productsEndpoint: `https://fakestoreapi.com/products`,
+      currenciesEndpoint: `https://api.apilayer.com/exchangerates_data/convert?to=:to&from=:from&amount=:amount`,
     };
   }
 
   async getCurrencyApi(userAmount?: number) {
-    userAmount = 1; // Temp value
-    const path = this.ApiRoutes.getCurrencies
+    if (userAmount) {
+    }
+    userAmount = userAmount || 1; // Temp value
+    const path = this._apiEndpoints.currenciesEndpoint
       .replace(':to', String('ILS'))
       .replace(':from', String('USD'))
       .replace(':amount', String(userAmount));
-    let headers = new HttpHeaders();
-    let headersReady = headers.set('apiKey', ApiEnum.APIKEY);
-    //NEED TO SAVE ALL CREDENTIALS IN NGRX STORE
+
+    //?NEED TO SAVE ALL CREDENTIALS IN NGRX STORE
+
     this.http
-      .get(path, { headers: headersReady })
-      .pipe((data: any) => data)
+      .get(path)
+      .pipe(take(1), (data) => data)
       .subscribe((res) => {
         this.currencySource.next(res);
       });
   }
 
   async getItemsToPurchase() {
-    //->Change Later
-    this.store.dispatch({type: 'START_LOADING'})
-    const path = this.ApiRoutes.getProducts;
+    this.store.dispatch(new UI.StartLoading());
+    const path = this._apiEndpoints.productsEndpoint;
     return this.http
       .get(path)
       .pipe(map((data: any) => data))
       .subscribe(async (items) => {
         this.itemsSource.next(await items);
-
-        //->Change Later
-        this.store.dispatch({type: 'STOP_LOADING'})
+        this.store.dispatch(new UI.StopLoading());
       });
   }
 }

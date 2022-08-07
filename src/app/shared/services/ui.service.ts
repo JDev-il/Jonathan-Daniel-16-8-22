@@ -5,7 +5,9 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class UiService {
-  loadingStateChanged = new Subject<boolean>();
+  loading?: boolean;
 
   constructor() {}
+
+  // use Observable >>
 }
