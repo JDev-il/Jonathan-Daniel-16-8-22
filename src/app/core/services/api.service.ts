@@ -15,15 +15,8 @@ import {
 //Store Reducers
 import * as fromRoot from '../../app.reducer';
 //Store Actions
-import * as UI from '../../store/actions/ui.actions';
+import * as UI from '../../shared/store/actions/ui.actions';
 
-/*
--- From Store:
---> to actions/reducers
---> then create a combined Reducers const (object + creating exporting createFeatureSelector etc.)
---> then spreading into services
---> then subscribing via components onInit() etc.
-*/
 
 @Injectable({
   providedIn: 'root',
@@ -66,14 +59,12 @@ export class ApiService {
   }
 
   async getItemsToPurchase() {
-    this.store.dispatch(new UI.StartLoading());
     const path = this._apiEndpoints.productsEndpoint;
     return this.http
-      .get(path)
-      .pipe(map((data: any) => data))
-      .subscribe(async (items) => {
-        this.itemsSource.next(await items);
-        this.store.dispatch(new UI.StopLoading());
-      });
+    .get(path)
+    .pipe(map((data: any) => data))
+    .subscribe(async (items) => {
+      this.itemsSource.next(await items);
+    });
   }
 }

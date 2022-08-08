@@ -1,4 +1,8 @@
 
+::ng-deep .mat-dialog-container{
+  padding: 5px !important;
+
+}
 .itemsTableComponent {
   height: 100%;
   display: flex;
@@ -18,7 +22,6 @@
     .mat-tab-list {
       border-top-right-radius: 1em;
       border-top-left-radius: 1em;
-      background-color: #FF9F00;
       padding: 10px 0;
 
       .mat-tab-label {
@@ -105,6 +108,20 @@
         }
       }
     }
+    .overlayDialog {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: .3;
+      z-index: 11112;
+      background-color: #000;
+    }
+
   }
+
 }
 

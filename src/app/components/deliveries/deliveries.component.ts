@@ -7,6 +7,10 @@ import { ActionsService } from 'src/app/shared/services/ui_actions.service';
 import { Item } from '../../core/interfaces/Item.interface';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogContent } from '../dialog/dialog.component';
+import { Observable } from 'rxjs';
+
+import * as fromRoot from '../../app.reducer'
+import { Store } from '@ngrx/store';
 
 /*=============================================
 =                   EXAMPLE                   =
@@ -113,6 +117,15 @@ const ELEMENT_DATA: PeriodicElement[] = [
   ],
 })
 export class DeliveriesComponent implements OnInit {
+
+  // < Global State
+  overLayControl$!: Observable<boolean>
+
+
+  // > Local State
+  isDialogOpen: boolean = false;
+
+
   @ViewChild(MatSort) sort!: MatSort | null;
 
   itemsTable: Item[] = [];
@@ -131,24 +144,27 @@ export class DeliveriesComponent implements OnInit {
   itemsSource = new MatTableDataSource(this.itemsTable);
   //& change between dataSource & itemsSource
 
+
   constructor(
     private apiService: ApiService,
     private actionService: ActionsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private store: Store<fromRoot.State>
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(){
+    this.overLayControl$ = this.store.select(fromRoot.getOverlay)
     // this.actionService.addNewItemToDeliveryList()
   }
 
   addNewItem() {
-    const dialogRef = this.dialog.open(DialogContent);
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      console.log(`Dialog result: ${result}`);
-    });
-        // this.actionService.addNewItemToDeliveryList()
+    if(!this.isDialogOpen){
+      this.isDialogOpen = true;
+      const dialogRef = this.dialog.open(DialogContent);
+      dialogRef.afterClosed().subscribe(result => {
+        this.isDialogOpen = false;
+      });
+    }
   }
 
   ngAfterViewInit() {

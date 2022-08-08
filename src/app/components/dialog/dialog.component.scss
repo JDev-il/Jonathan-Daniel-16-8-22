@@ -1,6 +1,68 @@
 .dialogFormWrapper {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-flow: column;
   position: relative;
   z-index: 11113;
+  background-color: #121f3f0c;;
+    .dialogHeader {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      div:first-child{
+        position: relative;
+        margin: 0 auto;
+        top: 50px;
+        h2 {
+          text-align: center;
+          margin: 0;
+          padding: 0;
+        }
+      }
+      div:not(:first-child) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        button {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+   .dialogForm {
+    width: 30vw;
+    height: 450px;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    .innerFormWrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > div {
+        display: flex;
+        flex-flow: column;
+        margin: 15px;
+        ::ng-deep mat-form-field{
+          margin: 15px;
+        }
+      }
+    }
+    .buttonsDiv {
+      display: flex;
+      justify-content: center;
+      width: 75%;
+      button {
+        margin: 0 25px;
+      }
+    }
+    .buttonsDiv::first-child{
+      button::first-child {
+        background-color: red !important;
+      }
+    }
+   }
 }

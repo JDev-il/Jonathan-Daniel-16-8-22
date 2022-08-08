@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 //Store Reducers
 import * as fromRoot from '../../app.reducer';
 //Store Actions
-import * as UI from '../../store/actions/ui.actions';
+import * as UI from '../store/actions/ui.actions';
 
 
 @Injectable({
@@ -20,7 +20,7 @@ export class ActionsService {
     private store: Store<fromRoot.State>) {
   }
 
-  items: Item[] = this.apiService.items;
+  // items = this.store.select(fromRoot.getItems);
 
 
   addNewItemToDeliveryList(newItem?: Item){
@@ -33,7 +33,7 @@ export class ActionsService {
   }
 
   archiveDeliveryItem(itemToArchive: Item){
-    this.store.dispatch(new UI.StartLoading());
+    // this.store.dispatch(new UI.StartLoading());
     /*
     TODO --> item should be removed from delivery items list >> and add it to the archived list.
     */

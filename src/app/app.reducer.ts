@@ -1,21 +1,26 @@
-import { Action, ActionReducerMap, createFeatureSelector, createReducer, createSelector} from '@ngrx/store'
-import * as fromUi from './store/reducers/ui.reducer'
-import * as fromItems from './store/reducers/items.reducer'
+import {  ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store'
+import * as fromUi from './shared/store/reducers/ui.reducer'
+import * as fromItems from './shared/store/reducers/items.reducer'
+
+// Selector State Slices
+export const getUiState = createFeatureSelector<fromUi.State>('UI');
+export const getItemsState = createFeatureSelector<fromItems.State>('Items');
 
 export interface State {
-  UI: fromUi.State,
-  ITEMS: fromItems.State
+  UI?: fromItems.State;
 }
 
-export function ItemsReducer(state: fromItems.State) {
-    return createReducer(state.isItemDelivered)
-}
-export function UIReducer(state: fromUi.State) {
-  return createReducer(state)
+export const reducers: ActionReducerMap<any> = {
+  UI: fromUi.reducerUi,
 }
 
-// Selector?
-export const getUiState = createFeatureSelector<fromUi.State>('ui');
-export const getItemsState = createFeatureSelector<fromItems.State>('items');
 
-// export const getIsLoading = createSelector(getUiState, fromUi.getIsLoading)
+// Selector State Export
+export const
+getIsLoading = createSelector(getUiState, fromUi.getIsLoadingState),
+getOverlay = createSelector(getUiState, fromUi.getOverlayState),
+addedItems = createSelector(getItemsState, fromItems.getAddedItems),
+archivedItems = createSelector(getItemsState, fromItems.getArchivedItems)
+
+
+

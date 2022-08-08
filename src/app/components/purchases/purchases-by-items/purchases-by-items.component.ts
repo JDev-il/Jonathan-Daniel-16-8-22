@@ -8,11 +8,14 @@ import { ActionsService } from 'src/app/shared/services/ui_actions.service';
 import { Item } from '../../../core/interfaces/Item.interface';
 
 import * as appReducer from '../../../app.reducer';
-import { Observable, map, Subject, BehaviorSubject } from 'rxjs';
+import { Observable, map, Subject, BehaviorSubject, from, Subscription } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { State, StateObservable, Store } from '@ngrx/store';
 import * as fromRoot from '../../../app.reducer';
-import * as UI from '../../../store/actions/ui.actions';
+
+
+import * as UI from '../../../shared/store/actions/ui.actions';
+import * as UIReducer from '../../../shared/store/reducers/ui.reducer'
 
 /*=============================================
 =                   EXAMPLE                   =
@@ -110,7 +113,7 @@ export class PurchasesByItemsComponent implements OnInit {
 
   itemsTable: Item[] = [];
 
-  isLoading$?: Observable<boolean>;
+  isLoading$!: Observable<boolean>;
 
   displayedColumns: string[] = [
     'position',
@@ -127,13 +130,18 @@ export class PurchasesByItemsComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private actionsService: ActionsService,
-    private store: Store<fromRoot.State>
+    private store: Store<{ui: fromRoot.State}>,
   ) {}
 
-  ngOnInit(): void {
+  subscriber!: Subscription
+
+
+  ngOnInit(){
+    this.apiService.getItemsToPurchase();
     this.isLoading$ = this.store.select(fromRoot.getIsLoading)
-    // this.store.subscribe(data => console.log(data))
-    this.apiService.getCurrencyApi();
+
+
+    // this.apiService.getCurrencyApi();
   }
 
   ngAfterViewInit() {
