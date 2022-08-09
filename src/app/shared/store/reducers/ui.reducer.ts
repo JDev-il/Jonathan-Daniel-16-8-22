@@ -1,15 +1,13 @@
-import { Action } from '@ngrx/store';
-
 import {START_LOADING, STOP_LOADING, SHOW_OVERALY, HIDE_OVERALY, UIActions} from '../actions/ui.actions';
 
 export interface State {
-  isLoading: boolean;
-  isOverlay: boolean;
+  isLoading?: boolean;
+  isOverlay?: boolean;
 }
 
 const initialState: State = {
   isLoading: false,
-  isOverlay: false,
+  isOverlay: true,
 };
 
 export function reducerUi(state = initialState, action: UIActions) {
@@ -23,13 +21,13 @@ export function reducerUi(state = initialState, action: UIActions) {
     case HIDE_OVERALY:
       return { isOverlay: false};
     default: {
-      return {...state};
+      return state;
     }
   }
 }
 
 //Slices of updated state
 export const
-getIsLoadingState = (state: State) => state.isLoading,
-getOverlayState = (state: State) => state.isOverlay;
+getIsLoadingState = (state?: State) => state?.isLoading,
+getOverlayState = (state?: State) => state?.isOverlay;
 

@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { Item } from 'src/app/core/interfaces/Item.interface';
 import { ADD_NEW_ITEM, ARCHIVE_ITEM, ITEM_DELIVERED, ITEM_NOT_DELIVERED, REACTIVATE_ITEM, ItemsActions } from '../actions/items.actions';
 
@@ -21,13 +20,7 @@ const initialState: State = {
 export function reducerItems(state = initialState, action: ItemsActions) {
   switch (action.type) {
     case ADD_NEW_ITEM:
-      const itemToSend: Item = {
-        id: 5,
-        title: 'blah blah',
-        description: 'blah blah blah',
-        price: 25,
-      };
-      return { itemDelivered: true, archiveItem: itemToSend };
+      return { itemDelivered: true };
     case ARCHIVE_ITEM:
       return { archiveItem: true };
     case REACTIVATE_ITEM:
