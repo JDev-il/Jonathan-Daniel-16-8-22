@@ -10,10 +10,10 @@ Delivering this solution to the public can be useful for people who do most of t
 ### App Design & Architecture
 This app was designed using the Angular framework(v14.1.1) which offers great front-end architecture design solution with high scalability performance and a massive 3rd-party libraries collection.
 
+
 #### State Management:
 
 
 ---------------
 
-##### Dsiclaimer:
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version: 14.1.1
+##### This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version: 14.1.1
