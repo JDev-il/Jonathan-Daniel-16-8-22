@@ -24,7 +24,7 @@ import {
   map,
 } from 'rxjs';
 
-import { ApiService } from './api.service';
+import { ApiService } from '../../shared/services/api.service';
 
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
@@ -34,7 +34,7 @@ export class InterceptorService implements HttpInterceptor {
     currency: '/exchangerates_data',
   };
 
-  private apiKey = '4jtwlGPkdiTRTauO7dfbnygKIIkeOBTT'
+  private apiKey = 'Xk3PfHIgkBmxdOW1Kt5g3junXdyU9B3X'
 
   constructor(private apiService: ApiService) {}
 
@@ -42,12 +42,7 @@ export class InterceptorService implements HttpInterceptor {
     request: HttpRequest<any | unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any | unknown>> {
-    const isProductsPath = request.url.match(this.routesToCheck.products);
     const isCurrencyPath = request.url.includes("exchangerates_data");
-
-    if (isProductsPath) {
-      return next.handle(request);
-    }
 
     if(isCurrencyPath){
       request = request.clone({setHeaders: {"apiKey": this.apiKey}})

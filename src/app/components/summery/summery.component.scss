@@ -1,7 +1,67 @@
-.purchaseContainerSummery{
-  width: 100%;
-  height: 35vh;
-  display: flex;
-  background-color: red;
+.summeryTableWrapper {
+  margin: 0 auto;
+  height: 650px;
+  overflow-y: auto;
+  box-shadow: 0 3px 12px -6px #121f3f;
+  padding: 25px 10px;
+  width: 65%;
   border-radius: 1em;
+  @media screen and (max-width: 768px) {
+    width: 85%;
+  }
+  ::ng-deep .summeryTable {
+    border-radius: 1em;
+    color: #121f3f !important;
+    width: 100%;
+    height: 50%;
+    .mat-row {
+      text-align: center;;
+      td.mat-cell {
+        text-align: center;
+        width: 33.3336% !important;
+        @media screen and (max-width: 768px) {
+          font-size: smaller;
+          padding: 0;
+          text-align: center;
+        }
+        &:first-of-type {
+          padding-left: 0 !important;
+        }
+      }
+
+    }
+    th.mat-header-cell, td.mat-footer-cell{
+      font-size: 16px !important;
+      font-weight: 600;
+      text-align: center;
+      @media screen and (max-width: 768px) {
+        width: 85%;
+        font-size: smaller;
+      }
+      &:first-of-type{
+        padding: 0;
+      }
+      &:last-of-type {
+        padding-right: 0 !important;
+      }
+    }
+    td.mat-cell {
+      &:last-of-type  {
+        padding-right: 0 !important;
+      }
+      @media screen and (max-width: 768px) {
+        width: 85%;
+        font-size: large;
+      }
+    }
+    // ::ng-deep .mat-footer-row {
+    //   td.mat-footer-cell {
+    //     font-size: 16px !important;
+    //     font-weight: 600;
+    //     text-align: center;
+    //   }
+    // }
+  }
+
 }
+

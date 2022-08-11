@@ -14,6 +14,6 @@ import { SharedModule } from '../shared.module';
   ],
   exports: [
     SharedModule,
-  ]
+  ],
 })
 export class MainLayoutModule { }

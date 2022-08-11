@@ -1,13 +1,19 @@
 <section class="itemsTableComponent">
   <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
-    <!--Tab Delivery-->
+    <!--Delivery Tab-->
     <mat-tab label="Delivery">
-      <Delivery></Delivery>
+      <Delivery
+      [displayedColumns]="tableColumns"
+      [storeNames]="tablesOnlineStores"
+      ></Delivery>
     </mat-tab>
-    <!--Tab Archives-->
+    <!--Archives Tab-->
     <mat-tab label="Archive Items">
-      <Archives></Archives>
+      <Archives
+      [displayedColumns]="tableColumns"
+      [storeNames]="tablesOnlineStores"
+      ></Archives>
     </mat-tab>
   </mat-tab-group>
-  <Loader *ngIf="isLoading$ | async"></Loader>
+  <!-- <Loader *ngIf="isLoading$ | async"></Loader> -->
 </section>

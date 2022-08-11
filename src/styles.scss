@@ -21,7 +21,7 @@ $shopping-tracking-list-theme: mat.define-light-theme(
 
 
 //Initial App Settings
-$initial: rgb(60, 60, 60);
+$initial: #121F3F;
 
 html,
 body {
@@ -31,4 +31,5 @@ body {
   padding: 0;
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: $initial
 }

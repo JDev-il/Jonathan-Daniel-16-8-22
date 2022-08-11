@@ -1,13 +1,16 @@
 :host {
   position: relative;
+  top: 85px;
+  right: 0;
+  left: 0;
+  bottom: 0;
   width: 100%;
   display: flex;
-  justify-content: center;;
+  justify-content: center;
   .summeryContainer {
-    position: absolute;
-    top: 150px;
-    width: 75%;
-    text-align: center;
-    border-radius: 1em;
+    h1 {
+      text-align: center;
+    }
+    width: 100%;
   }
 }

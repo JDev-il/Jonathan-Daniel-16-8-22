@@ -13,11 +13,29 @@
         }
       }
       @media screen and (max-width: 992px) {
-        width: 60%;
+        width: 40%;
+      }
+    }
+    .headerTitle {
+      position: relative;
+      top: 15px;
+      h1 {
+        font-size: 250%;
+        font-weight: bold;
+      }
+      @media screen and (max-width: 1200px) {
+        position: absolute;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        top: 75px;
+        h1 {
+          font-size: 200%;
+        }
       }
     }
     Currency {
-      width: 30%;
+      width: 35%;
     }
   }
 }

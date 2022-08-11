@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./purchases-by-store.component.scss']
 })
 export class PurchasesByStoreComponent implements OnInit {
-
+  summeryColumns = ['store', 'quantity', 'price'];
   constructor() { }
 
   ngOnInit(): void {

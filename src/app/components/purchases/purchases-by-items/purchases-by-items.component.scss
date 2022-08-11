@@ -1,43 +1,40 @@
-
-::ng-deep .mat-dialog-container{
-  padding: 5px !important;
-
-}
 .itemsTableComponent {
   height: 100%;
   display: flex;
   justify-content: center;
   position: relative;
   z-index: 111;
-  ::ng-deep mat-tab-group{
+  ::ng-deep mat-tab-group {
     position: absolute;
     width: 75%;
     height: 65%;
     top: 85px;
-    border-top-right-radius: .8em;
-    border-top-left-radius: .8em;
+    border-top-right-radius: 0.8em;
+    border-top-left-radius: 0.8em;
     @media screen and (max-width: 992px) {
       width: 95%;
     }
     .mat-tab-list {
       border-top-right-radius: 1em;
       border-top-left-radius: 1em;
+      background-color: #ff9f00;
       padding: 10px 0;
 
       .mat-tab-label {
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
       .mat-tab-label-active {
         font-size: larger;
-        color: #121F3F;
+        color: #121f3f;
         opacity: 1;
       }
-      mat-ink-bar{
+      mat-ink-bar {
         margin: 0 auto;
-        background-color: #121F3F;
+        background-color: #121f3f;
       }
     }
-    .deliveryTable, .archiveTable {
+    .deliveryTable,
+    .archiveTable {
       .mat-table {
         line-height: 5;
         width: 100%;
@@ -51,13 +48,14 @@
           }
         }
         .mat-row {
+          line-height: 1.8;
           td.mat-cell {
             border: none;
             .archiveBtn {
-              transition: all .115s ease-in-out;
-              &:active{
+              transition: all 0.115s ease-in-out;
+              &:active {
                 color: #ffc25f !important;
-               }
+              }
               &:hover {
                 background-color: #3c4356;
                 color: aliceblue;
@@ -74,54 +72,17 @@
           }
         }
 
-        th.mat-header-cell:last-of-type{
+        th.mat-header-cell:last-of-type {
           padding-right: 0 !important;
         }
-        td.mat-cell:last-of-type{
+        td.mat-cell:last-of-type {
           padding-right: 0 !important;
         }
       }
     }
-
-    /* Delivery Tab */
-    .addItemBtnDiv {
-      display: flex;
-      justify-content: flex-end;
-      .newItemBtn {
-        width: 115px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #fff;
-        background-color: #121f3f7a;
-        transition: all .1s ease-in-out;
-        margin: 10px;
-        &:hover {
-          color: #ffe2b4;
-          background-color: #121f3fa0
-        };
-        &:active {
-          color:#ffc25f
-        }
-        mat-icon {
-          margin-right: 5px;
-        }
-      }
-    }
-    .overlayDialog {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      opacity: .3;
-      z-index: 11112;
-      background-color: #000;
-    }
-
   }
-
 }
-
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+  border-radius: 1em !important;
+}

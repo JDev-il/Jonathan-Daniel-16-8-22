@@ -1,0 +1,41 @@
+.tabHeaderWrapper {
+  width: 100%;
+  margin: 0 auto;
+  display: inline-flex;
+  .itemsFilterDiv {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .addItemBtnDiv {
+    display: inherit;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    .newItemBtn {
+      height: min-content;
+      color: #fff;
+      background-color: #121f3f7a;
+      transition: all 0.1s ease-in-out;
+      &:hover {
+        color: #ffe2b4;
+        background-color: #121f3fa0;
+      }
+      &:active {
+        color: #ffc25f;
+      }
+    }
+  }
+  > div {
+    margin: 0 15px;
+  }
+
+  .storeNamesTableDiv {
+    td {
+      display: flex;
+      flex-flow: column;
+    }
+  }
+
+}

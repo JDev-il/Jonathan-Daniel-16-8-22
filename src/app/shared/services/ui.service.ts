@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { map, Subject } from 'rxjs';
+import * as fromRoot from '../../app.reducer'
+
+import * as uiReducer from '../store/actions/ui.actions'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UiService {
-  loading?: boolean;
+  loadingState?: boolean;
 
-  constructor() {}
+  constructor(private store: Store<fromRoot.State['UI']>) {}
 
-  // use Observable >>
+
+  getStateFromRoot(){
+    this.store.dispatch(new uiReducer.HideOverlay())
+
+  }
 }

@@ -1,11 +1,24 @@
 import { Store } from './Store.interface';
 
-export interface Item {
-  id?: number;
-  title?: string;
-  price?: number;
-  description?: string;
-  isDelivered?: boolean;
-  purchase_platform?: Store['name'];
-  purchase_date?: Date;
+export interface TableItem {
+  id: number,
+  title: string,
+  store: string,
+  delivery: Date,
+  price: number,
+  action?: string
+}
+
+
+export interface OriginalItem {
+  category?: string,
+  description?: string,
+  id: number,
+  image?: string,
+  price: number,
+  rating: {rate: number, count: number},
+  title: string,
+  delivery: Date,
+  action?: string,
+  store: string,
 }
