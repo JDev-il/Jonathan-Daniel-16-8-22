@@ -15,6 +15,6 @@ This app was designed using the Angular framework(v14.1.1) which offers great fr
 
 ---------------
 
-########### Dsiclaimer:
+###### Dsiclaimer:
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version: 14.1.1
