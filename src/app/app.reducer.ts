@@ -14,11 +14,10 @@ export const reducers: ActionReducerMap<any> = {
   UI: fromUi.reducerUi,
 }
 
-
 // Selector State Export
 export const
-getIsLoading = createSelector(getUiState, fromUi?.getIsLoadingState),
-getOverlay = createSelector(getUiState, fromUi?.getOverlayState),
+getIsLoading = createSelector(getUiState, fromUi.getIsLoadingState),
+getOverlay = createSelector(getUiState, fromUi.getOverlayState),
 addedItems = createSelector(getItemsState, fromItems.getAddedItems),
 archivedItems = createSelector(getItemsState, fromItems.getArchivedItems)
 

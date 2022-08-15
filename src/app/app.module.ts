@@ -15,7 +15,6 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { CurrencyComponent } from './shared/components/currency/currency.component';
 import * as reducers from './app.reducer';
-// import * as fromTestReducer from './app.reducer';
 
 @NgModule({
   declarations: [

@@ -1,13 +1,20 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ApiService } from '../../shared/services/api.service';
+import { Subscription } from 'rxjs';
+import { CurrencyService } from '../services/currency.service';
 
-
-@Pipe({name: 'exchangeCurrency'})
+@Pipe({ name: 'exchangeCurrency' })
 export class ExchangeCurrencyPipe implements PipeTransform {
+  currencySubcribe!: Subscription;
 
-  constructor(private apiService: ApiService){}
+  constructor(private currencyService: CurrencyService) {}
 
-  transform(value: number, code: string){
-    return value * 2
+  transform(userInput: number, symbol: string) {
+
+    let inDollars = userInput / this.currencyService.updatedCurrency?.result;
+
+    if (symbol === '$') {
+      return inDollars.toFixed(2);
+    }
+    return userInput.toFixed(2);
   }
 }

@@ -1,80 +1,76 @@
-<div class="tabHeaderWrapper">
-  <div class="itemsFilterDiv">
-    <mat-form-field appearance="standard">
-      <mat-label>Filter Table Here</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Search an item" #input>
-    </mat-form-field>
+<div class="deliveryWrapper">
+  <div class="tabHeaderWrapper">
+    <div class="itemsFilterDiv">
+      <mat-form-field appearance="standard">
+        <mat-label>Filter Table Here</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search an item" #input>
+      </mat-form-field>
+    </div>
+    <div class="addItemBtnDiv">
+      <button mat-stroked-button class="newItemBtn" mat-button (click)="newItemDialog()">
+        <mat-icon>add</mat-icon> Add Item
+      </button>
+    </div>
   </div>
-  <div class="addItemBtnDiv">
-    <button mat-stroked-button class="newItemBtn" mat-button (click)="newItemDialog()">
-      <mat-icon>add</mat-icon> Add Item
-    </button>
+
+  <div class="deliveryTable">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
+          Position
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by title">
+          Item Name
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="store">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by store">
+            Store Name
+        </th>
+        <td mat-cell *matCellDef="let element" class="storeNamesTableDiv">
+          <mat-form-field appearance="standard">
+            <mat-label >Store</mat-label>
+            <mat-select disableRipple [(ngModel)]="element.store">
+              <mat-option (onSelectionChange)="onChangeStoreName(element.store, element)" selected disabled>Choose from list</mat-option>
+              <mat-option *ngFor="let store of storeNames" [value]="store">
+                {{ store }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="delivery">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by delivery">
+          Delivery ETA
+        </th>
+        <td mat-cell *matCellDef="let element"> {{!element.delivery ? '"{{new Date()}}"' : element.delivery}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">
+          Price in ILS/USD
+        </th>
+        <td class="priceWithCurrency" mat-cell *matCellDef="let element"> {{currencySymbol}} {{element.price || element.price | exchangeCurrency: currencySymbol }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by action">
+          Action
+        </th>
+        <td mat-cell *matCellDef="let element"><button class="archiveBtn" mat-stroked-button (click)="archiveItem(element)">{{'Archive'}}</button></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
   </div>
 </div>
-
-<div class="deliveryTable">
-
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by id">
-        Position
-      </th>
-      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by title">
-        Item Name
-      </th>
-      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="store">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by store">
-          Store Name
-      </th>
-      <td mat-cell *matCellDef="let element" class="storeNamesTableDiv">
-        <p>{{element.store}}</p>
-        <mat-form-field appearance="standard">
-          <mat-label>Choose from list</mat-label>
-          <mat-select disableRipple [(ngModel)]="element.store">
-            <mat-option (onSelectionChange)="onChangeStoreName(element.store, element)">Choose from list</mat-option>
-            <mat-option *ngFor="let store of storeNames" [value]="store"
-                        (onSelectionChange)="onChangeStoreName(store, element)">
-              {{ store }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="delivery">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by delivery">
-        Delivery ETA
-      </th>
-      <td mat-cell *matCellDef="let element"> {{!element.delivery ? 'N/A' : element.delivery}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="price">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">
-        Price in ILS/USD
-      </th>
-
-      <td mat-cell *matCellDef="let element"> {{element.price | exchangeCurrency: element.price | currency }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by action">
-        Action
-      </th>
-      <td mat-cell *matCellDef="let element"><button class="archiveBtn" mat-stroked-button (click)="archiveItem(element)">{{'Archive'}}</button></td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <Loader *ngIf="isLoader"></Loader>
-</div>
-
-<dialogBox *ngIf="false"></dialogBox>
+<Loader *ngIf="isLoading$ | async"></Loader>

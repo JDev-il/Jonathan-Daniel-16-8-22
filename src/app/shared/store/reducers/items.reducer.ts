@@ -1,20 +1,20 @@
-import { OriginalItem } from 'src/app/core/interfaces/Item.interface';
+import { ItemModel } from 'src/app/core/interfaces/Item.interface';
 import { ADD_NEW_ITEM, ARCHIVE_ITEM, ITEM_DELIVERED, ITEM_NOT_DELIVERED, REACTIVATE_ITEM, ItemsActions } from '../actions/items.actions';
 
 export interface State {
   itemDelivered: boolean;
-  itemsList: OriginalItem[];
-  newItems: OriginalItem[];
-  archiveItem: OriginalItem;
-  reActivateItem: OriginalItem;
+  itemsList: ItemModel[];
+  newItems: ItemModel[];
+  archiveItem: ItemModel;
+  reActivateItem: ItemModel;
 }
 
 const initialState: State = {
   itemDelivered: false,
   itemsList: [],
   newItems: [],
-  archiveItem: <OriginalItem>{},
-  reActivateItem: <OriginalItem>{},
+  archiveItem: <ItemModel>{},
+  reActivateItem: <ItemModel>{},
 };
 
 export function reducerItems(state = initialState, action: ItemsActions) {

@@ -11,5 +11,4 @@ export class PurchasesByStoreComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

@@ -1,6 +1,9 @@
-.itemsFilterDiv {
-  display: flex;
+.tabHeaderWrapper {
   width: 100%;
-  justify-content: flex-start;
-  margin: 0 15px;
+  margin: 0 auto;
+  display: inline-flex;
+  overflow: hidden;
+  > div {
+    margin: 0 15px;
+  }
 }

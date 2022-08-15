@@ -25,6 +25,8 @@ import {
 } from 'rxjs';
 
 import { ApiService } from '../../shared/services/api.service';
+import { CurrencyService } from './currency.service';
+
 
 @Injectable()
 export class InterceptorService implements HttpInterceptor {
@@ -34,9 +36,9 @@ export class InterceptorService implements HttpInterceptor {
     currency: '/exchangerates_data',
   };
 
-  private apiKey = 'Xk3PfHIgkBmxdOW1Kt5g3junXdyU9B3X'
+  private apiKey = 'DtEHd19onNgIB9zqYRR0906Bm15aOAim'
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private currencyService: CurrencyService) {}
 
   intercept(
     request: HttpRequest<any | unknown>,
