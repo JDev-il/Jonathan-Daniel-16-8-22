@@ -1,4 +1,4 @@
-import { Action, createAction, props } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
 export const START_LOADING = '[UI] StartLoader';
 export const STOP_LOADING = '[UI] StopLoader';

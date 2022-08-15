@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -16,11 +16,12 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { ItemModel } from '../../core/interfaces/Item.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContent } from '../dialog/dialog.component';
-import { Observable, Subscription } from 'rxjs';
+import { map, Observable, Subscription } from 'rxjs';
 
 import * as fromRoot from '../../app.reducer';
 import { Store } from '@ngrx/store';
 
+import * as UI from '../../shared/store/actions/ui.actions';
 import { CurrencyService } from 'src/app/core/services/currency.service';
 
 @Component({
@@ -32,11 +33,13 @@ import { CurrencyService } from 'src/app/core/services/currency.service';
   ],
 })
 export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
+
   @ViewChild(MatSort) sort!: MatSort | null;
 
+  @Output() currentCurrencyEmmiter = new EventEmitter();
   @Input() displayedColumns!: string[];
   @Input() storeNames!: string[];
-  @Input() isLoadingDelivery!: Observable<any>;
+  @Input() isLoading$!: Observable<boolean>;
 
   observeditems!: Subscription;
 
@@ -51,20 +54,19 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
     private apiService: ApiService,
     private currencyService: CurrencyService,
     public dialog: MatDialog,
-    private store: Store<fromRoot.State>
   ) {}
 
   ngOnInit() {
     this.observeditems = this.apiService.items$.subscribe((items) => {
       this.dataSource.data = items;
-    });
+    })
   }
 
   newItemDialog() {
     if (!this.isDialogOpen) {
       this.isDialogOpen = true;
       const dialogRef = this.dialog.open(DialogContent);
-      dialogRef.afterClosed().subscribe((_) => {
+      dialogRef.afterClosed().subscribe(_ => {
         this.isDialogOpen = false;
       });
     }
@@ -80,19 +82,16 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.apiService.archiveOrDeliveryItem(item, false);
   }
 
-  onChangeStoreName(store: string, element: ItemModel) {
-    let clonedElement = { ...element };
+  onChangeStoreName(store: string, element: ItemModel){
+    let clonedElement = {...element};
     this.currentStoreName = store;
-    this.dataSource
-      .connect()
-      .asObservable()
-      .forEach((items: any[]) => {
-        items.find((item) => {
-          if (item.title === clonedElement.title) {
-            item.store = this.currentStoreName;
-          }
-        });
-      });
+    this.dataSource.connect().asObservable().forEach((items: any[]) =>{
+      items.find(item=>{
+        if(item.title === clonedElement.title){
+          item.store = this.currentStoreName;
+        }
+      })
+    })
   }
 
   ngAfterViewInit() {

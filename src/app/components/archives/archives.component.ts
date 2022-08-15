@@ -53,6 +53,8 @@ export class ArchivesComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource.data = archived;
       }
     );
+    console.log(this.isLoadingArchives);
+
   }
 
   applyFilter(event: Event) {

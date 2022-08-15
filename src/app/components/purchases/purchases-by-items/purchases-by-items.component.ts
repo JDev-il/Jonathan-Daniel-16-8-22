@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { UiService } from 'src/app/shared/services/ui.service';
 import * as fromRoot from '../../../app.reducer';
 
 @Component({
@@ -14,16 +15,17 @@ export class PurchasesByItemsComponent implements OnInit {
   tablesOnlineStores!: string[];
   currencyConvertor!: string;
   currencySymbolTransfer!: string;
-  isLoading$!: Observable<any>;
+  isLoading$!: any;
 
   constructor(
     private apiService: ApiService,
+    private uiService: UiService,
     private store: Store<fromRoot.State>
   ) {}
 
   ngOnInit() {
     this.tablesOnlineStores = this.apiService.tablesOnlineStores;
-    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    this.isLoading$ = this.uiService.loadingState;
   }
 
   currentCurrencyReciever(value: string) {

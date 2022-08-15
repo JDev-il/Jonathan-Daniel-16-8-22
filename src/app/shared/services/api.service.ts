@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http';
 //Store
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../app.reducer';
+import * as uiReducer from '../store/actions/ui.actions'
 
 //Interface
 import { ItemModel } from 'src/app/core/interfaces/Item.interface';
-import { CurrencyItem } from '../../core/interfaces/Currency.interface';
 
 //RxJS
-import { BehaviorSubject, map, take } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { SummeryItem } from 'src/app/core/interfaces/Summery.interface';
 
 @Injectable({
@@ -90,6 +90,8 @@ export class ApiService {
   }
 
   addNewItemToDeliveryList(newItem: ItemModel) {
+    this.store.dispatch(new uiReducer.StartLoading())
+    debugger
     const itemsDataFilter = this.itemsData.filter(
         (itemData) =>
           itemData.title === newItem.title && itemData.price === newItem.price
@@ -125,9 +127,13 @@ export class ApiService {
       }
     }
     this.setTableItems = this.itemsData;
+    setTimeout(() => {
+      this.store.dispatch(new uiReducer.StopLoading())
+    }, 1700);
   }
 
   archiveOrDeliveryItem(item: ItemModel, isArchived: boolean) {
+    this.store.dispatch(new uiReducer.StartLoading())
     let itemsReactivated, itemsArchived;
     if (!isArchived) {
       itemsReactivated = this.itemsData.map((itemData) => {
@@ -163,6 +169,9 @@ export class ApiService {
       }
     }
     this.addSummeryItems(item);
+    setTimeout(() => {
+      this.store.dispatch(new uiReducer.StopLoading())
+    }, 800);
   }
 
   prepareSummeryItems() {
@@ -190,6 +199,7 @@ export class ApiService {
   }
 
   addSummeryItems(itemToAdd: ItemModel) {
+    this.store.dispatch(new uiReducer.StartLoading())
     let fromItemToSummery = [].map((item: SummeryItem) => {
       return {
         store: itemToAdd.store,
@@ -200,5 +210,9 @@ export class ApiService {
     if (fromItemToSummery) {
       this.setSummeryItems = fromItemToSummery;
     }
+    setTimeout(() => {
+      this.store.dispatch(new uiReducer.StopLoading())
+    }, 800);
+
   }
 }

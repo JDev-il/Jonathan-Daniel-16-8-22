@@ -5,7 +5,8 @@
       <Delivery
       [displayedColumns]="tableColumns"
       [storeNames]="tablesOnlineStores"
-      [isLoadingDelivery]="isLoading$"
+      (currentCurrencyEmmiter)="currentCurrencyReciever($event)"
+      [isLoading$]="isLoading$"
       ></Delivery>
     </mat-tab>
     <!--Archives Tab-->

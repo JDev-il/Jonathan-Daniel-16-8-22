@@ -9,15 +9,7 @@ import * as uiReducer from '../store/actions/ui.actions'
 })
 export class UiService {
 
-  loadingState!: Observable<any>;
+  loadingState: Observable<any> = this.store.select(fromRoot.getIsLoading);
 
   constructor(private store: Store<fromRoot.State>) {}
-
-  isLoadingState(){
-    this.loadingState = this.store.select(fromRoot.getIsLoading);
-  }
-
-  getStateFromRoot(){
-    this.store.dispatch(new uiReducer.HideOverlay())
-  }
 }
