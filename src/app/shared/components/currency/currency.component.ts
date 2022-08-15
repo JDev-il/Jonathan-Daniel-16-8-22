@@ -1,7 +1,15 @@
-import { AfterContentChecked, Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { CurrencyItem} from 'src/app/core/interfaces/Currency.interface';
+import {
+  AfterContentChecked,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { concatMap, fromEvent, map, mergeAll, mergeMap, repeat, Subscription, switchMap, take, takeUntil, takeWhile, timer } from 'rxjs';
+import { CurrencyService } from 'src/app/core/services/currency.service';
 import { ApiService } from 'src/app/shared/services/api.service';
+
 @Component({
   selector: 'Currency',
   templateUrl: './currency.component.html',
@@ -9,28 +17,22 @@ import { ApiService } from 'src/app/shared/services/api.service';
 })
 export class CurrencyComponent implements OnInit {
 
-  //TODO: Instantiate data from NGRX store!
+  currencySubscriber!: Subscription
+  @Output() sendCurrencyToComponents = new EventEmitter();
+  @Input() currencySymbols!: string[];
+  currentSymbol: string = '₪';
 
-  @Output() sendCurrencyToComponents = new EventEmitter()
-  currencyItem!: CurrencyItem[];
+  constructor(private currencyService: CurrencyService) {}
 
-  constructor(private apiService: ApiService) { }
-
-  ngOnInit() {
-    // this.apiService.fetchCurrencyData();
+  ngOnInit(): void {
   }
 
-//! currency rates need to update in tables - delivery & store tables NOT HERE!
-
-//     date: "2022-08-09"
-// info: {timestamp: 1660043643, rate: 3.31044}
-// query: {from: 'USD', to: 'ILS', amount: 1}
-// result: 3.31044
-// success: true
+  chooseCurrencySymbol(option: any) {
+    this.currentSymbol = option.value;
+    this.currencyService.selectedCurrency = option.value;
+  }
 
   ngAfterContentChecked(){
-  /*   if(!this.currencyItem){
-      this.currencyItem = this.apiService.currencyData;
-    } */
+    this.currencyService.selectedCurrency = this.currentSymbol;
   }
 }

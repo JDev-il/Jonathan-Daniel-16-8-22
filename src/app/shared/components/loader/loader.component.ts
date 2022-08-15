@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../services/api.service';
+import { UiService } from '../../services/ui.service';
 
 @Component({
   selector: 'Loader',
@@ -8,19 +9,11 @@ import { ApiService } from '../../services/api.service';
 })
 export class LoaderComponent implements OnInit {
 
-  loader: boolean = true;
+  loadingState: boolean = true;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private uiService: UiService) {}
 
   ngOnInit(): void {
-    this.loader = this.apiService.loader
-  }
-
-  ngAfterContentInit(): void {
-
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
-
   }
 
 }

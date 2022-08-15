@@ -3,21 +3,13 @@ import {
   ChangeDetectorRef,
   Component,
   EventEmitter,
+  Input,
+  OnInit,
   Output,
 } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  Validators,
-  FormArray,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
-import * as UI from '../../shared/store/actions/ui.actions';
-import * as fromRoot from '../../app.reducer';
-
-import { OriginalItem } from 'src/app/core/interfaces/Item.interface';
+import { ItemModel } from 'src/app/core/interfaces/Item.interface';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -25,11 +17,13 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'dialogBox',
   templateUrl: './dialog.component.html',
   styleUrls: ['./dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogContent {
-
+export class DialogContent implements OnInit {
   @Output() dialogFormEmmiter = new EventEmitter();
+  @Input() storeNamesSummery!: string[];
 
+  currentStoreName!: string;
   dialogForm: FormGroup = this.fb.group({
     title: ['', [Validators.required]],
     store: ['', [Validators.required]],
@@ -38,22 +32,27 @@ export class DialogContent {
   });
 
   constructor(
-    public fb: FormBuilder,
-    private store: Store<fromRoot.State>,
     private apiService: ApiService,
-    public dialog: MatDialog,
-    ){}
+    private cd: ChangeDetectorRef,
+    public fb: FormBuilder,
+    public dialog: MatDialog
+  ) {}
 
-  newItemSubmitFromDialog(item: OriginalItem) {
-    if(this.dialogForm.valid){
-      this.apiService.addNewItemToDeliveryList(item)
-      this.dialog.closeAll()
+  ngOnInit() {
+    this.storeNamesSummery = this.apiService.tablesOnlineStores;
+  }
+
+  newItemSubmitFromDialog(item: ItemModel) {
+    if (this.dialogForm.valid) {
+      this.apiService.addNewItemToDeliveryList(item);
+      this.cd.markForCheck();
+      this.dialog.closeAll();
     }
   }
 
   closeAfterSubmit() {
-    if(this.dialogForm.valid){
-      this.dialog.closeAll()
+    if (this.dialogForm.valid) {
+      this.dialog.closeAll();
     }
   }
 }

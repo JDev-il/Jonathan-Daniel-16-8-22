@@ -5,6 +5,7 @@
       <Delivery
       [displayedColumns]="tableColumns"
       [storeNames]="tablesOnlineStores"
+      [isLoadingDelivery]="isLoading$"
       ></Delivery>
     </mat-tab>
     <!--Archives Tab-->
@@ -12,8 +13,8 @@
       <Archives
       [displayedColumns]="tableColumns"
       [storeNames]="tablesOnlineStores"
+      [isLoadingArchives]="isLoading$"
       ></Archives>
     </mat-tab>
   </mat-tab-group>
-  <!-- <Loader *ngIf="isLoading$ | async"></Loader> -->
 </section>

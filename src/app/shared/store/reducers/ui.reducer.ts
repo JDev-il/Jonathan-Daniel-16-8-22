@@ -28,6 +28,6 @@ export function reducerUi(state = initialState, action: UIActions) {
 
 //Slices of updated state
 export const
-getIsLoadingState = (state?: State) => state?.isLoading,
-getOverlayState = (state?: State) => state?.isOverlay;
+getIsLoadingState = (state: State) => state.isLoading,
+getOverlayState = (state: State) => state.isOverlay;
 

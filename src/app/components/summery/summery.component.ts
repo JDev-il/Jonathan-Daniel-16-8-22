@@ -1,17 +1,22 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { OriginalItem } from 'src/app/core/interfaces/Item.interface';
 import { SummeryItem } from 'src/app/core/interfaces/Summery.interface';
+import { CurrencyService } from 'src/app/core/services/currency.service';
 import { ApiService } from 'src/app/shared/services/api.service';
-
 
 @Component({
   selector: 'Summery',
   templateUrl: './summery.component.html',
   styleUrls: ['./summery.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummeryComponent implements OnInit {
   @Input() displayedColumns!: string[];
@@ -19,11 +24,17 @@ export class SummeryComponent implements OnInit {
   dataSource = new MatTableDataSource();
   observedSummeryItems!: Subscription;
 
-  usdIlsSwitch!: boolean;
+  currencySymbol: string = this.currencyService.selectedCurrency;
+  exchangeRate!: number;
 
-  constructor(private apiService: ApiService, private cd: ChangeDetectorRef) {}
+  constructor(
+    private apiService: ApiService,
+    private cd: ChangeDetectorRef,
+    private currencyService: CurrencyService
+  ) {}
 
   ngOnInit() {
+    this.apiService.prepareSummeryItems();
     this.observedSummeryItems = this.apiService.summeryItems$.subscribe(
       (items) => {
         this.summeryItems = items.map((itemSummery, index) => {
@@ -35,9 +46,6 @@ export class SummeryComponent implements OnInit {
         });
       }
     );
-    this.cd.markForCheck();
-
-    //! FROM HERE....
   }
 
   getTotalQuantity() {
@@ -51,7 +59,13 @@ export class SummeryComponent implements OnInit {
       .reduce((acc, value) => acc + value, 0);
   }
 
-  ngAfterContentChecked() {
+  numbersToStrings(value: number) {
+    return String(value);
+  }
+
+  ngAfterContentChecked(): void {
     this.dataSource.data = this.summeryItems;
+    this.currencySymbol = this.currencyService.selectedCurrency
+    this.cd.markForCheck();
   }
 }

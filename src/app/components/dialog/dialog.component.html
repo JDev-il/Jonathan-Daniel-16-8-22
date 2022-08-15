@@ -21,8 +21,12 @@
       </div>
       <div>
         <mat-form-field appearance="standard">
-          <mat-label>Store</mat-label>
-          <input matInput type="text" formControlName="store" required>
+          <mat-label>Store Name</mat-label>
+          <mat-select disableRipple formControlName="store" required >
+            <mat-option *ngFor="let store of storeNamesSummery" [value]="store">
+              {{ store }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
         <mat-form-field appearance="standard">
           <mat-label>Receive Date Estimation</mat-label>

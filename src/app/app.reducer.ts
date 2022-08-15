@@ -14,7 +14,6 @@ export const reducers: ActionReducerMap<any> = {
   UI: fromUi.reducerUi,
 }
 
-
 // Selector State Export
 export const
 getIsLoading = createSelector(getUiState, fromUi?.getIsLoadingState),

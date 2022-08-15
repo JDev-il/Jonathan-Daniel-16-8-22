@@ -2,10 +2,9 @@
   <div class="currencyBlockContainer">
     <span>Currency:</span>
     <div class="currencyDropdown">
-      <select required>
-        <option value="ILS">₪</option>
-        <option value="USD">$</option>
-      </select>
+      <select (change)="chooseCurrencySymbol($event.target)">
+        <option *ngFor="let symbol of currencySymbols">{{symbol}}</option>
+    </select>
     </div>
   </div>
 </div>

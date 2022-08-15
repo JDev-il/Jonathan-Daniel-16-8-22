@@ -4,10 +4,9 @@ import { HttpClient } from '@angular/common/http';
 //Store
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../app.reducer';
-// import * as UI from '../store/actions/ui.actions';
 
 //Interface
-import { OriginalItem } from 'src/app/core/interfaces/Item.interface';
+import { ItemModel } from 'src/app/core/interfaces/Item.interface';
 import { CurrencyItem } from '../../core/interfaces/Currency.interface';
 
 //RxJS
@@ -18,10 +17,13 @@ import { SummeryItem } from 'src/app/core/interfaces/Summery.interface';
   providedIn: 'root',
 })
 export class ApiService {
-  loader!: boolean;
-  archivedItems: OriginalItem[] = [];
-  itemsData: OriginalItem[] = [];
-  summeryItems: SummeryItem[] = [];
+  showAllDemoItems: any[] = [];
+  archivedItems: ItemModel[] = [];
+  itemsData: ItemModel[] = [];
+
+  lastItemArchived!: ItemModel;
+  lastItemReactivated!: ItemModel;
+
   tablesOnlineStores: string[] = [
     'Amazon',
     'eBay',
@@ -34,58 +36,46 @@ export class ApiService {
 
   constructor(private http: HttpClient, private store: Store<fromRoot.State>) {}
 
-  private readonly itemsSource = new BehaviorSubject(<OriginalItem[]>[]);
-  private readonly archivedItemsSource = new BehaviorSubject(<OriginalItem[]>[]);
+  private readonly itemsSource = new BehaviorSubject(<ItemModel[]>[]);
+  private readonly archivedItemsSource = new BehaviorSubject(<ItemModel[]>[]);
   private readonly summeryItemsSource = new BehaviorSubject(<SummeryItem[]>[]);
-  private readonly currencySource = new BehaviorSubject(<CurrencyItem[]>[]);
 
   readonly items$ = this.itemsSource.asObservable();
   readonly archivedItems$ = this.archivedItemsSource.asObservable();
   readonly summeryItems$ = this.summeryItemsSource.asObservable();
-  readonly currency$ = this.currencySource.asObservable();
-
 
   private get _apiEndpoints() {
     return {
       productsEndpoint: `https://fakestoreapi.com/products`,
-      currenciesEndpoint: `https://api.apilayer.com/exchangerates_data/convert?to=:to&from=:from&amount=:amount`,
     };
   }
 
-  //RxJS SETTERS
-  set setCurrencyData(currency: CurrencyItem[]) {
-    this.currencySource.next(currency);
-  }
-  set setArchivedItems(archivedItems: OriginalItem[]) {
+  //SETTERS
+  set setArchivedItems(archivedItems: ItemModel[]) {
     this.archivedItemsSource.next(archivedItems);
   }
-  set setTableItems(items: OriginalItem[]) {
+  set setTableItems(items: ItemModel[]) {
     this.itemsSource.next(items);
   }
   set setSummeryItems(items: SummeryItem[]) {
-    this.summeryItemsSource.next(items)
+    this.summeryItemsSource.next(items);
   }
 
-  getCurrency(userAmount?: number) {
-    const path = this._apiEndpoints.currenciesEndpoint
-      .replace(':to', String('ILS'))
-      .replace(':from', String('USD'))
-      .replace(':amount', String('1'));
-    this.http
-      .get(path)
-      .pipe(take(1), (currency: CurrencyItem | any) => currency)
-      .subscribe((result: CurrencyItem | any) => {
-        this.setCurrencyData = result;
-      });
+  //GETTERS
+  get geTableItems() {
+    return this.itemsSource.getValue();
   }
-  getItemsToPurchase() {
-    this.loader = true;
+  get geArchivedItems() {
+    return this.archivedItemsSource.getValue();
+  }
+
+  getItemsToPurchaseFromApi() {
     const path = this._apiEndpoints.productsEndpoint;
     this.http
       .get(path)
       .pipe(map((data: any) => data))
       .subscribe(async (items) => {
-        this.itemsData = await items.map((item: OriginalItem) => {
+        this.showAllDemoItems = await items.map((item: ItemModel) => {
           return {
             id: item.id,
             title: item.title,
@@ -93,58 +83,122 @@ export class ApiService {
             price: item.price,
             delivery: item.delivery,
             action: item?.action,
+            status: item.status,
           };
         });
-        this.summeryItems = await items.map((item: SummeryItem)=>{
-          return {
-            store: item.store,
-            quantity: item?.quantity,
-            price: item.price
-          }
-        })
-        this.setSummeryItems = this.summeryItems
-        this.setTableItems = this.itemsData;
       });
   }
 
-  addNewItemToDeliveryList(newItem: OriginalItem) {
-    const itemToAdd = this.itemsData.filter(
-      (prev) => prev.title === newItem.title && prev.price === newItem.price
-    );
-    if (!itemToAdd.length) {
-      let id = { ...this.itemsData[this.itemsData.length - 1] }.id;
-      newItem.id = id + 1;
+  addNewItemToDeliveryList(newItem: ItemModel) {
+    const itemsDataFilter = this.itemsData.filter(
+        (itemData) =>
+          itemData.title === newItem.title && itemData.price === newItem.price
+      ),
+      archivedFound = this.archivedItems?.find(
+        (archivedItem) => archivedItem?.id === this.lastItemArchived?.id
+      );
+    let lastItemDataId = this.itemsData[this.itemsData.length - 1],
+      lastArchivedItemId = this.archivedItems[this.archivedItems.length - 1],
+      itemsDataLength = this.itemsData.length,
+      archivedItemsLength = this.archivedItems.length;
+
+    if (!itemsDataLength && !archivedItemsLength && !itemsDataFilter.length) {
+      newItem.id = 1;
+      this.itemsData.push(newItem);
+    } else if (
+      itemsDataLength &&
+      !archivedItemsLength &&
+      !itemsDataFilter.length
+    ) {
+      newItem.id = lastItemDataId.id + 1;
       this.itemsData = [...this.itemsData, newItem];
-      this.setTableItems = this.itemsData;
-    }
-  }
-
-  archiveOrDeliveryItem(item: OriginalItem, isArchived: boolean) {
-    let fromWhichList = isArchived ? this.itemsData : this.archivedItems;
-    const itemFound = fromWhichList.find((existItem) => {
-      return existItem.id === item.id;
-    });
-    if (itemFound) {
-      this.archiveOrReactivateItem(itemFound, isArchived);
-    }
-  }
-
-  archiveOrReactivateItem(item: OriginalItem, from: boolean) {
-    let chosenArray: OriginalItem[] = from
-      ? this.itemsData
-      : this.archivedItems;
-    let indexOfArchive = chosenArray.indexOf(item);
-    indexOfArchive > -1 ? chosenArray.splice(indexOfArchive, 1) : '';
-    if (from) {
-      this.setTableItems = this.itemsData;
-      this.archivedItems.push(item);
-      this.archivedItems.sort((a, b) => a.id - b.id);
-      this.setArchivedItems = this.archivedItems;
+    } else if (archivedItemsLength && !itemsDataLength) {
+      newItem.id = lastArchivedItemId.id + 1;
+      this.itemsData = [...this.itemsData, newItem];
     } else {
-      this.setArchivedItems = this.archivedItems;
-      this.itemsData.push(item);
-      this.itemsData.sort((a, b) => a.id - b.id);
-      this.setTableItems = this.itemsData;
+      if (archivedFound && !itemsDataFilter.length) {
+        newItem.id = lastArchivedItemId.id + 1;
+        this.itemsData = [...this.itemsData, newItem];
+      } else {
+        newItem.id = lastItemDataId.id + 1;
+        this.itemsData = [...this.itemsData, newItem];
+      }
+    }
+    this.setTableItems = this.itemsData;
+  }
+
+  archiveOrDeliveryItem(item: ItemModel, isArchived: boolean) {
+    let itemsReactivated, itemsArchived;
+    if (!isArchived) {
+      itemsReactivated = this.itemsData.map((itemData) => {
+        this.archivedItems.find((archivedItem) => {
+          return itemData.id === archivedItem.id;
+        });
+      });
+      if (itemsReactivated) {
+        this.itemsData.indexOf(item) > -1
+          ? this.itemsData.splice(this.itemsData.indexOf(item), 1)
+          : '';
+        this.setTableItems = this.itemsData;
+        this.lastItemArchived = item;
+        this.archivedItems.push(item);
+        this.archivedItems.sort((a, b) => a.id - b.id);
+        this.setArchivedItems = this.archivedItems;
+      }
+    } else {
+      itemsArchived = this.archivedItems.map((archivedItem) => {
+        this.itemsData.find((itemData) => {
+          return archivedItem.id === itemData.id;
+        });
+      });
+      if (itemsArchived) {
+        this.archivedItems.indexOf(item) > -1
+          ? this.archivedItems.splice(this.archivedItems.indexOf(item), 1)
+          : '';
+        this.setArchivedItems = this.archivedItems;
+        this.lastItemReactivated = item;
+        this.itemsData.push(item);
+        this.itemsData.sort((a, b) => a.id - b.id);
+        this.setTableItems = this.itemsData;
+      }
+    }
+    this.addSummeryItems(item);
+  }
+
+  prepareSummeryItems() {
+    let items = [...this.itemsData],
+      archived = [...this.archivedItems],
+      conjoinedItems = items.concat(archived).sort((a, b) => {
+        return a.id - b.id;
+      }),
+      summeryItemsList: SummeryItem[] = [];
+    summeryItemsList = conjoinedItems.map((itemsToMap) => {
+      if (itemsToMap.store) {
+        return {
+          store: itemsToMap.store,
+          quantity: itemsToMap?.rating?.count,
+          price: itemsToMap.price,
+        };
+      }
+      return {
+        store: '',
+        quantity: itemsToMap?.rating?.count,
+        price: 0,
+      };
+    });
+    this.setSummeryItems = summeryItemsList;
+  }
+
+  addSummeryItems(itemToAdd: ItemModel) {
+    let fromItemToSummery = [].map((item: SummeryItem) => {
+      return {
+        store: itemToAdd.store,
+        quantity: itemToAdd.rating.count,
+        price: itemToAdd.price,
+      };
+    });
+    if (fromItemToSummery) {
+      this.setSummeryItems = fromItemToSummery;
     }
   }
 }

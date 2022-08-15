@@ -1,12 +1,10 @@
 import { Action, createAction, props } from '@ngrx/store';
 
-export const START_LOADING = '[UI] Start Loader';
+export const START_LOADING = '[UI] StartLoader';
 export const STOP_LOADING = '[UI] StopLoader';
 export const SHOW_OVERALY = '[UI] ShowOverlay';
 export const HIDE_OVERALY = '[UI] HideOverlay';
 export const LOGGING_ARRAY = '[UI] LogingArray';
-
-//! just names of action
 
 export class StartLoading implements Action {
   readonly type: string = START_LOADING;

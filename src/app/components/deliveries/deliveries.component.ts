@@ -5,21 +5,23 @@ import {
   OnDestroy,
   Input,
   AfterViewInit,
+  Output,
+  EventEmitter,
 } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from 'src/app/shared/services/api.service';
 
-import { OriginalItem } from '../../core/interfaces/Item.interface';
+import { ItemModel } from '../../core/interfaces/Item.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContent } from '../dialog/dialog.component';
-import { map, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import * as fromRoot from '../../app.reducer';
 import { Store } from '@ngrx/store';
 
-import * as UI from '../../shared/store/actions/ui.actions';
+import { CurrencyService } from 'src/app/core/services/currency.service';
 
 @Component({
   selector: 'Delivery',
@@ -31,18 +33,23 @@ import * as UI from '../../shared/store/actions/ui.actions';
 })
 export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort!: MatSort | null;
+
   @Input() displayedColumns!: string[];
   @Input() storeNames!: string[];
+  @Input() isLoadingDelivery!: Observable<any>;
 
   observeditems!: Subscription;
 
-  isLoader!: boolean;
   isDialogOpen!: boolean;
   dataSource = new MatTableDataSource();
   currentStoreName!: string;
 
+  currencySymbol!: string;
+  exchangeRate!: number;
+
   constructor(
     private apiService: ApiService,
+    private currencyService: CurrencyService,
     public dialog: MatDialog,
     private store: Store<fromRoot.State>
   ) {}
@@ -57,7 +64,7 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.isDialogOpen) {
       this.isDialogOpen = true;
       const dialogRef = this.dialog.open(DialogContent);
-      dialogRef.afterClosed().subscribe(_ => {
+      dialogRef.afterClosed().subscribe((_) => {
         this.isDialogOpen = false;
       });
     }
@@ -68,24 +75,32 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  archiveItem(item: OriginalItem) {
-    this.apiService.archiveOrDeliveryItem(item, true);
+  archiveItem(item: ItemModel) {
+    item.status = 'A';
+    this.apiService.archiveOrDeliveryItem(item, false);
   }
 
-  onChangeStoreName(store: string, element: OriginalItem){
-    let clonedElement = {...element};
+  onChangeStoreName(store: string, element: ItemModel) {
+    let clonedElement = { ...element };
     this.currentStoreName = store;
-    this.dataSource.connect().asObservable().forEach((items: any[]) =>{
-      items.find(item=>{
-        if(item.title === clonedElement.title)
-          item.store = this.currentStoreName
-      })
-    })
+    this.dataSource
+      .connect()
+      .asObservable()
+      .forEach((items: any[]) => {
+        items.find((item) => {
+          if (item.title === clonedElement.title) {
+            item.store = this.currentStoreName;
+          }
+        });
+      });
   }
-
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+  ngAfterContentChecked() {
+    this.currencySymbol = this.currencyService.getSelectedCurrency;
   }
 
   ngOnDestroy() {
