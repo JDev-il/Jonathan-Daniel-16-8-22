@@ -12,7 +12,7 @@ This app was designed using the Angular framework(v14.1.1) which offers great fr
 
 
 #### State Management:
-
+Using both Service & Ngrx as statemanagement, both the overall business logic and overall structure - were created after puting some thoughts into it in order to make the project's performance as fine as possible.
 
 ---------------
 
