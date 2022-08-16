@@ -8,13 +8,12 @@ export class ExchangeCurrencyPipe implements PipeTransform {
 
   constructor(private currencyService: CurrencyService) {}
 
-  transform(userInput: number, symbol: string) {
+  transform(userInput: number, symbol?: string) {
 
-    let inDollars = userInput / this.currencyService.updatedCurrency?.result;
-
-    if (symbol === '$') {
-      return inDollars.toFixed(2);
+    let updatedCurrency = this.currencyService.updatedCurrency?.result || 3.270299;
+    if (symbol === "$") {
+      return (userInput / updatedCurrency).toFixed(2)
     }
-    return userInput.toFixed(2);
+    return userInput.toFixed(2)
   }
 }

@@ -36,7 +36,7 @@ export class InterceptorService implements HttpInterceptor {
     currency: '/exchangerates_data',
   };
 
-  private apiKey = 'DtEHd19onNgIB9zqYRR0906Bm15aOAim'
+  private apiKey = 'uOQah5Ugk4dcc5egmu7FeGTLvpXWszoU'
 
   constructor(private apiService: ApiService, private currencyService: CurrencyService) {}
 

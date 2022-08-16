@@ -58,7 +58,7 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by price">
           Price in ILS/USD
         </th>
-        <td class="priceWithCurrency" mat-cell *matCellDef="let element"> {{currencySymbol}} {{element.price || element.price | exchangeCurrency: currencySymbol }} </td>
+        <td class="priceWithCurrency" mat-cell *matCellDef="let element"> {{currencySymbol}} {{element.price | exchangeCurrency: currencySymbol }} </td>
       </ng-container>
 
       <ng-container matColumnDef="action">
