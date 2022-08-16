@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -16,13 +16,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { ItemModel } from '../../core/interfaces/Item.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContent } from '../dialog/dialog.component';
-import { map, Observable, Subscription } from 'rxjs';
-
-import * as fromRoot from '../../app.reducer';
-import { Store } from '@ngrx/store';
-
-import * as UI from '../../shared/store/actions/ui.actions';
+import { Observable, Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/core/services/currency.service';
+import { ExchangeCurrencyPipe } from 'src/app/core/pipes/exchangeCurrency.pipe';
 
 @Component({
   selector: 'Delivery',
@@ -100,6 +96,7 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterContentChecked() {
     this.currencySymbol = this.currencyService.getSelectedCurrency;
+    this.exchangeRate = this.currencyService.updatedCurrency?.result;
   }
 
   ngOnDestroy() {

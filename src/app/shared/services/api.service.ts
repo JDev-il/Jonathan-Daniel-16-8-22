@@ -91,7 +91,6 @@ export class ApiService {
 
   addNewItemToDeliveryList(newItem: ItemModel) {
     this.store.dispatch(new uiReducer.StartLoading())
-    debugger
     const itemsDataFilter = this.itemsData.filter(
         (itemData) =>
           itemData.title === newItem.title && itemData.price === newItem.price
