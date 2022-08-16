@@ -16,13 +16,9 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { ItemModel } from '../../core/interfaces/Item.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogContent } from '../dialog/dialog.component';
-
-import * as fromRoot from '../../app.reducer';
-import { Store } from '@ngrx/store';
-
-import * as UI from '../../shared/store/actions/ui.actions';
-import { CurrencyService } from 'src/app/core/services/currency.service';
 import { Observable, Subscription } from 'rxjs';
+import { CurrencyService } from 'src/app/core/services/currency.service';
+
 
 
 @Component({
@@ -49,7 +45,6 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
   currentStoreName!: string;
 
   currencySymbol!: string;
-  exchangeRate!: number;
 
   constructor(
     private apiService: ApiService,
@@ -101,7 +96,6 @@ export class DeliveriesComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterContentChecked() {
     this.currencySymbol = this.currencyService.getSelectedCurrency;
-    this.exchangeRate = this.currencyService.updatedCurrency?.result;
   }
 
   ngOnDestroy() {

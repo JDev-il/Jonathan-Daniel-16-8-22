@@ -4,24 +4,10 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse,
-  HttpResponse,
-  HttpHeaderResponse,
-  HttpEventType,
-  HttpHeaders,
-  HttpResponseBase,
-  HttpClient,
 } from '@angular/common/http';
 import {
   Observable,
-  throwError,
-  of,
-  tap,
-  switchMap,
   retry,
-  catchError,
-  delayWhen,
-  map,
 } from 'rxjs';
 
 import { ApiService } from '../../shared/services/api.service';

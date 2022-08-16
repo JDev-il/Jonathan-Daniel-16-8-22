@@ -30,7 +30,6 @@ export class CurrencyService implements OnDestroy {
   * - Hello!
   * -   Please make sure to change the ApiLayer.com apiKey,
   * -   located in the interceptor.service.ts file
-  * -   to a valid one.
   */
   getCurrency() {
     const path = this._currency.currenciesEndpoint
