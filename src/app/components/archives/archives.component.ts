@@ -61,7 +61,6 @@ export class ArchivesComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reactivateItem(item: ItemModel) {
-    debugger
     item.status = 'D';
     this.apiService.archiveOrDeliveryItem(item, true);
   }
