@@ -18,11 +18,10 @@ import { CurrencyService } from './currency.service';
 export class InterceptorService implements HttpInterceptor {
 
   private routesToCheck = {
-    products: '/products',
     currency: '/exchangerates_data',
   };
 
-  private apiKey = 'uOQah5Ugk4dcc5egmu7FeGTLvpXWszoU'
+  private apiKey = 'LUHju8veOo0l1qG7CIL3fTAjMrufrolu'
 
   constructor(private apiService: ApiService, private currencyService: CurrencyService) {}
 
@@ -30,11 +29,11 @@ export class InterceptorService implements HttpInterceptor {
     request: HttpRequest<any | unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any | unknown>> {
-    const isCurrencyPath = request.url.includes("exchangerates_data");
+    const isCurrencyPath = request.url.includes(this.routesToCheck.currency);
 
     if(isCurrencyPath){
       request = request.clone({setHeaders: {"apiKey": this.apiKey}})
-      return next.handle(request)
+      return next.handle(request);
     }
 
     return next.handle(request).pipe(retry(3));
