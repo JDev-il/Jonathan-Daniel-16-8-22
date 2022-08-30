@@ -6,9 +6,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { concatMap, fromEvent, map, mergeAll, mergeMap, repeat, Subscription, switchMap, take, takeUntil, takeWhile, timer } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CurrencyService } from 'src/app/core/services/currency.service';
-import { ApiService } from 'src/app/shared/services/api.service';
 
 @Component({
   selector: 'Currency',

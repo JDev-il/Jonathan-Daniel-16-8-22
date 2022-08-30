@@ -68,4 +68,8 @@ export class SummeryComponent implements OnInit {
     this.currencySymbol = this.currencyService.selectedCurrency
     this.cd.markForCheck();
   }
+
+  ngOnDestroy(){
+    this.observedSummeryItems.unsubscribe()
+  }
 }

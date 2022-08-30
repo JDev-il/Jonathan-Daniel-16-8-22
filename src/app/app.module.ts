@@ -15,6 +15,8 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { NavigationComponent } from './shared/components/navigation/navigation.component';
 import { CurrencyComponent } from './shared/components/currency/currency.component';
 import * as reducers from './app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import * as reducers from './app.reducer';
     ReactiveFormsModule,
     MaterialModule,
     StoreModule.forRoot(reducers.reducers),
+    EffectsModule.forRoot([]),
   ],
 
   providers: [
