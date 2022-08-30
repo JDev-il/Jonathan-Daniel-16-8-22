@@ -4,10 +4,10 @@ import * as fromItems from './shared/store/reducers/items.reducer'
 
 // Selector State Slices
 export const getUiState = createFeatureSelector<fromUi.State>('UI');
-export const getItemsState = createFeatureSelector<fromItems.State>('Items');
+export const getItemsState = createFeatureSelector<fromItems.FeatureItems>('Items');
 
 export interface State {
-  UI?: fromItems.State;
+  UI?: fromItems.ItemsState;
 }
 
 export const reducers: ActionReducerMap<any> = {
@@ -16,10 +16,8 @@ export const reducers: ActionReducerMap<any> = {
 
 // Selector State Export
 export const
-getIsLoading = createSelector(getUiState, fromUi.getIsLoadingState),
-getOverlay = createSelector(getUiState, fromUi.getOverlayState),
-addedItems = createSelector(getItemsState, fromItems.getAddedItems),
-archivedItems = createSelector(getItemsState, fromItems.getArchivedItems)
+getIsLoading = createSelector(getUiState, fromUi.getIsLoadingState);
+// archivedItems = createSelector(getItemsState ,fromItems.ItemsReducer);
 
 
 

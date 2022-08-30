@@ -11,7 +11,6 @@ export class AppComponent {
     private apiService: ApiService,
     private currencyService: CurrencyService
   ) {
-    this.apiService.getItemsToPurchaseFromApi();
     this.currencyService.getCurrency();
   }
   title = 'Shopping Tracking List';

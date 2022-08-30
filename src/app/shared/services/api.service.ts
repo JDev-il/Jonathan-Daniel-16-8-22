@@ -17,7 +17,6 @@ import { SummeryItem } from 'src/app/core/interfaces/Summery.interface';
   providedIn: 'root',
 })
 export class ApiService {
-  showAllDemoItems: any[] = [];
   archivedItems: ItemModel[] = [];
   itemsData: ItemModel[] = [];
 
@@ -69,25 +68,7 @@ export class ApiService {
     return this.archivedItemsSource.getValue();
   }
 
-  getItemsToPurchaseFromApi() {
-    const path = this._apiEndpoints.productsEndpoint;
-    this.http
-      .get(path)
-      .pipe(map((data: any) => data))
-      .subscribe(async (items) => {
-        this.showAllDemoItems = await items.map((item: ItemModel) => {
-          return {
-            id: item.id,
-            title: item.title,
-            store: item.store,
-            price: item.price,
-            delivery: item.delivery,
-            action: item?.action,
-            status: item.status,
-          };
-        });
-      });
-  }
+
 
   addNewItemToDeliveryList(newItem: ItemModel) {
     this.store.dispatch(new uiReducer.StartLoading())
